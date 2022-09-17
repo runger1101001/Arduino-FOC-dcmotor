@@ -12,7 +12,7 @@ So this represents a less-supported effort to provide some useful building block
 
 ## DCMotor
 
-This directory contains an initial implementation of a DCMotor class for closed loop control of DC motors using SimpleFOC's infrastructure.
+This library contains an initial implementation of a DCMotor class for closed loop control of DC motors using SimpleFOC's infrastructure.
 
 It supports closed loop motor control based on a position sensor on the motor shaft, with the following modes:
 
