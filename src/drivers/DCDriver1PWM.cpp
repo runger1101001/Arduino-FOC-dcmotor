@@ -1,6 +1,6 @@
-
-
 #include "./DCDriver1PWM.h"
+
+#if !(defined(ESP_H) && defined(ARDUINO_ARCH_ESP32))
 
 DCDriver1PWM::DCDriver1PWM(int pinPWM, float threshold, int pinEN) {
     this->pinPWM = pinPWM;
@@ -38,3 +38,5 @@ void DCDriver1PWM::setPwm(float U){
         _writeDutyCycle1PWM(threshold, params);
     }
 };
+
+#endif
