@@ -52,10 +52,12 @@ public:
      */
     void move(float target = NOT_SET) override;
 
-  /**
-    * @param U Voltage to set to the motor
+   /**
+    * @param Uq Voltage to set to the motor
+    * @param Ud ignored for DC motors
+    * @param angle_el ignored for DC motors
     */
-    void setPhaseVoltage(float U);
+    virtual void setPhaseVoltage(float Uq, float Ud, float angle_el) override;
 
     // not implemented for DC motors
     virtual int initFOC(float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override; 

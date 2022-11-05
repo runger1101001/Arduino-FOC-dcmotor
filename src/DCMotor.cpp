@@ -113,13 +113,15 @@ void DCMotor::move(float target) {
         break;
     }
     // set the voltage to the motor
-    setPhaseVoltage(voltage_sp);
+    setPhaseVoltage(voltage_sp, 0.0f, 0.0f);
 };
 
 
-void DCMotor::setPhaseVoltage(float U) {
+void DCMotor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
     if (enabled==1)
-        driver->setPwm(U);
+        driver->setPwm(Uq);
+    _UNUSED(Ud);
+    _UNUSED(angle_el);
 };
 
 
