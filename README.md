@@ -32,22 +32,37 @@ Open loop control is *not supported* by this class. But you can open loop contro
 ### Usage
 
 ```c++
-DCDriver driver = DCDriver2PWM(1,2,3);
-Sensor sensor = MagneticSensorAS5048A(10);
+#include <Arduino.h>
+
+#include "SimpleFOC.h"
+#include "DCMotor.h"
+#include "drivers/DCDriver2PWM.h"
+
+
+DCMotor motor = DCMotor();
+DCDriver2PWM driver = DCDriver2PWM(2, 3);
+MagneticSensorSPI sensor = MagneticSensorSPI(AS5048_SPI, 10);
 
 void setup() {
-    sensor.init();
-    driver.init();
-    motor.linkSensor(&sensor);
-    motor.linkDriver(&driver);
-    motor.controller = MotionControlType::torque;
-    motor.torque_controller = TorqueControlType::voltage;
-    motor.init();
+
+  driver.init();
+  sensor.init();
+  motor.linkDriver(&driver);
+  motor.linkSensor(&sensor);
+
+  driver.voltage_power_supply = 10.0f;
+  driver.voltage_limit = 10.0f;
+  motor.voltage_limit = 5.0f;
+  motor.torque_controller = TorqueControlType::voltage;
+  motor.controller = MotionControlType::torque;
+
+  motor.init();
+
 }
 
 void loop() {
-    motor.move(5); // 5 Volts
+  motor.move(3.0f); // 3 Volts
 }
 ```
 
-More detailed examples can be found [here](../examples/).
+More detailed examples can be found [here](examples/).
