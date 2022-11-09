@@ -73,7 +73,7 @@ void setup() {
   // has to be lower than the power supply voltage.
   motor.voltage_limit = 5.0f;
   // control type - for this example we use position mode.
-  motor.controller = MotionControlType::position;
+  motor.controller = MotionControlType::angle;
   // set the PID parameters for velocity control. Please consult our
   // documentation and forums for tips on PID tuning. The values
   // can be different depending on your PSU voltage, the driver, the sensor
