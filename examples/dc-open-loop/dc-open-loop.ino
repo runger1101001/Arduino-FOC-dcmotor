@@ -18,7 +18,7 @@
 // DCDriver object - this is the only thing needed for open-loop control.
 // There are different types to choose from, please select the correct one
 // that matches your motor driver hardware.
-DCDriver driver = DCDriverSpeedDir(2, 3);
+DCDriverSpeedDir driver = DCDriverSpeedDir(2, 3);
 
 /**
  * Setup function, in which you should intialize the driver.
