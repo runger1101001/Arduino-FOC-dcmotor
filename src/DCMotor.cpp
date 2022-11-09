@@ -111,6 +111,11 @@ void DCMotor::move(float target) {
             shaft_velocity_sp = target;
             voltage_sp = PID_velocity(shaft_velocity_sp - shaft_velocity);
         break;
+        default:
+            voltage_sp = 0.0f;
+            disable();
+            motor_status = FOCMotorStatus::motor_error; // we don't support this mode
+            return;
     }
     // set the voltage to the motor
     setPhaseVoltage(voltage_sp, 0.0f, 0.0f);
