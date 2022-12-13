@@ -3,6 +3,7 @@
 
 #include "./DCDriverSpeedDir.h"
 
+#if !(defined(ESP_H) && defined(ARDUINO_ARCH_ESP32))
 
 DCDriverSpeedDir::DCDriverSpeedDir(int pinPWM, int pinDIR, int pinEN) {
     this->pinPWM = pinPWM;
@@ -41,3 +42,5 @@ void DCDriverSpeedDir::setPwm(float U){
         _writeDutyCycle1PWM(0, params);
     }
 };
+
+#endif

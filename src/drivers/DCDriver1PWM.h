@@ -4,6 +4,7 @@
 
 #include "./DCDriver.h"
 
+#if !(defined(ESP_H) && defined(ARDUINO_ARCH_ESP32))
 
 /**
  * Intended to drive DC motor drivers with a single PWM control signal, with speed and direction
@@ -28,3 +29,5 @@ class DCDriver1PWM : public DCDriver {
         bool scale_reverse = true; //!< if true, the reverse scale is full reverse, if false, the reverse scale is the same as the forward scale
         float threshold = 0.5; //!< duty cycle above which the motor is considered to be "forward"
 };
+
+#endif

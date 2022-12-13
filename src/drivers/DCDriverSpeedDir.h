@@ -4,6 +4,7 @@
 
 #include "./DCDriver.h"
 
+#if !(defined(ESP_H) && defined(ARDUINO_ARCH_ESP32))
 
 /**
  * Intended to drive DC motor drivers with one PWM speed control signal, and one direction control signal.
@@ -26,3 +27,5 @@ class DCDriverSpeedDir : public DCDriver {
         int pinPWM;
         int pinDIR;
 };
+
+#endif
