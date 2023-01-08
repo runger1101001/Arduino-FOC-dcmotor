@@ -6,6 +6,7 @@ DCDriver1PWM::DCDriver1PWM(int pinPWM, float threshold, int pinEN) {
     this->pinPWM = pinPWM;
     this->threshold = threshold;
     this->pinEN = pinEN;
+    this->pwm_frequency = NOT_SET;
 };
 
 

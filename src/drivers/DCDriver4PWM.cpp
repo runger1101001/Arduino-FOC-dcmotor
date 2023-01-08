@@ -9,6 +9,7 @@ DCDriver4PWM::DCDriver4PWM(int pinA_h, int pinA_l, int pinB_h, int pinB_l, int p
     this->pinB_h = pinB_h;
     this->pinB_l = pinB_l;
     this->pinEN = pinEN;
+    this->pwm_frequency = NOT_SET;
 };
 
 

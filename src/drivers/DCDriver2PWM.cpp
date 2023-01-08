@@ -8,6 +8,7 @@ DCDriver2PWM::DCDriver2PWM(int pinA, int pinB, int pinEN) {
     this->pinA = pinA;
     this->pinB = pinB;
     this->pinEN = pinEN;
+    this->pwm_frequency = NOT_SET;
 };
 
 
