@@ -45,12 +45,12 @@ public:
     /**
      * Function executing the control loops set by the controller parameter of the DCMotor.
      * 
-     * @param target  Either voltage, angle or velocity based on the motor.controller
-     *                If it is not set the motor will use the target set in its variable motor.target
+     * @param new_target  Either voltage, angle or velocity based on the motor.controller
+     *                    If it is not set the motor will use the target set in its variable motor.target
      * 
      * This function doesn't need to be run upon each loop execution - depends of the use case
      */
-    void move(float target = NOT_SET) override;
+    void move(float new_target = NOT_SET) override;
 
    /**
     * @param Uq Voltage to set to the motor

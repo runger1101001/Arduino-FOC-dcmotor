@@ -77,10 +77,14 @@ void DCMotor::enable() {
 };
 
 
-void DCMotor::move(float target) {
+void DCMotor::move(float new_target) {
     // get angular velocity
     if (sensor) sensor->update();
+    shaft_angle = shaftAngle();
     shaft_velocity = shaftVelocity();
+
+    // update motor target
+    if(_isset(new_target)) target = new_target;
 
     // open-loop not supported
     if( controller==MotionControlType::angle_openloop || controller==MotionControlType::velocity_openloop ) return;
@@ -89,8 +93,6 @@ void DCMotor::move(float target) {
     if(!enabled) return;
 
     // get angle
-    shaft_angle = shaftAngle();
-    shaft_velocity = shaftVelocity();
     switch (controller) {
         case MotionControlType::torque:
             if (torque_controller == TorqueControlType::voltage)
@@ -110,7 +112,7 @@ void DCMotor::move(float target) {
             // inlcude velocity loop
             shaft_velocity_sp = target;
             voltage_sp = PID_velocity(shaft_velocity_sp - shaft_velocity);
-        break;
+            break;
         default:
             voltage_sp = 0.0f;
             disable();
