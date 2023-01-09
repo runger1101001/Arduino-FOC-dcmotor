@@ -1,4 +1,4 @@
-# SimpleFOC DCMotor
+# SimpleDCMotor
 
 
 :warning: code in development! Please help us test it!
@@ -27,9 +27,11 @@ You can use any of the SimpleFOC sensor classes from [this repository](../../enc
 
 ### Open loop control
 
-Open loop control is *not supported* by this class. But you can open loop control a DC motor just by directly using the DCDriver class and its `driver.setPwm(volts)` method.
+Open loop control for DC motors is equivalent to torque-voltage mode. You can use torque-voltage mode (and no sensor is required). Or you can open loop control a DC motor just by directly using the DCDriver class and its `driver.setPwm(volts)` method.
 
 ### Usage
+
+Use torque-voltage mode to open-loop control a DC motor:
 
 ```c++
 #include <Arduino.h>
@@ -41,18 +43,14 @@ Open loop control is *not supported* by this class. But you can open loop contro
 
 DCMotor motor = DCMotor();
 DCDriver2PWM driver = DCDriver2PWM(2, 3);
-MagneticSensorSPI sensor = MagneticSensorSPI(AS5048_SPI, 10);
 
 void setup() {
 
   driver.init();
-  sensor.init();
   motor.linkDriver(&driver);
-  motor.linkSensor(&sensor);
 
   driver.voltage_power_supply = 10.0f;
   driver.voltage_limit = 10.0f;
-  motor.voltage_limit = 5.0f;
   motor.torque_controller = TorqueControlType::voltage;
   motor.controller = MotionControlType::torque;
 
