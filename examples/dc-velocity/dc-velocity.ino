@@ -78,7 +78,6 @@ void setup() {
   driver.init();
   // init sensor
   sensor.init();
-  pinMode(10, OUTPUT);
   // link driver to motor
   motor.linkDriver(&driver);
   // link sensor to motor
