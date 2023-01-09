@@ -25,11 +25,83 @@ It is intended to be used with one of the [DCDriver classes](../../drivers/dc/).
 
 You can use any of the SimpleFOC sensor classes from [this repository](../../encoders/) or the [main repository](https://github.com/simplefoc/Arduino-FOC/tree/master/src/sensors).
 
+### Closed loop control
+
+The closed loop control modes supported are:
+
+- Velocity control, to set velocities to the motor and have the motor track them
+- Position control, to set angles to the motor and have the motor move to the defined position (like a servo)
+- Torque-current control (:warning: not yet implemented)
+
+
 ### Open loop control
 
 Open loop control for DC motors is equivalent to torque-voltage mode. You can use torque-voltage mode (and no sensor is required). Or you can open loop control a DC motor just by directly using the DCDriver class and its `driver.setPwm(volts)` method.
 
 ### Usage
+
+Use velocity mode to set specific speeds to the motor:
+
+```c++
+#include <Arduino.h>
+#include "SimpleFOC.h"
+#include "SimpleFOCDrivers.h"
+#include "SimpleDCMotor.h"
+#include "encoders/sc60228/MagneticSensorSC60228.h"
+
+DCMotor motor = DCMotor();
+DCDriver2PWM driver = DCDriver2PWM(5, 6);
+
+SPISettings mySC60228SPISettings(1000000, SC60228_BITORDER, SPI_MODE1);
+MagneticSensorSC60228 sensor = MagneticSensorSC60228(10, mySC60228SPISettings);
+
+Commander commander = Commander(Serial);
+void onMotor(char* cmd){ commander.motor(&motor, cmd); }
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial) {};
+  SimpleFOCDebug::enable();
+  
+  driver.voltage_power_supply = 6.0f;
+  driver.voltage_limit = 6.0f;
+  driver.pwm_frequency = 5000;
+
+  driver.init();
+  sensor.init();
+  motor.linkDriver(&driver);
+  motor.linkSensor(&sensor);
+
+  motor.voltage_limit = 6.0f;
+  motor.velocity_limit = 500.0f;
+  motor.controller = MotionControlType::velocity;
+  motor.torque_controller = TorqueControlType::voltage;
+  motor.init();
+  
+  motor.PID_velocity.P = 0.05f;
+  motor.PID_velocity.I = 0.02f;
+  motor.PID_velocity.D = 0.0f;
+  motor.PID_velocity.output_ramp = 200.0f;
+  motor.LPF_velocity.Tf = 0.01f;
+  
+  motor.target = 0.0f;
+  motor.enable();
+  
+  commander.add('M', onMotor, "dc motor");
+  motor.useMonitoring(Serial);
+  Serial.println("Initialization complete.");
+}
+
+void loop() {
+  motor.move();
+  commander.run();
+  motor.monitor();
+}
+```
+
+In above example, the motor starts stopped, and you have to connect the serial console to the MCU to set a speed to the motor using our commander class. The motor will print the telemetry information to the Serial console at the same time, but don't worry, you can still type into it. Use M100 to set a speed of 100rad/s. Use M-25.5 to set a speed of -25.5rad/s (e.g. in the other direction).
+
+
 
 Use torque-voltage mode to open-loop control a DC motor:
 
