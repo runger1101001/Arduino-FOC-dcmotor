@@ -2,8 +2,10 @@
 #include "./DCMotor.h"
 
 
-DCMotor::DCMotor() {
+DCMotor::DCMotor() : FOCMotor() {
     torque_controller = TorqueControlType::voltage;
+    phase_resistance = NOT_SET;
+    KV_rating = NOT_SET;
     pole_pairs = 1; // DC motors considered to have 1PP for purposes of shaft-angle calculations
 };
 
@@ -53,6 +55,12 @@ void DCMotor::init() {
     SIMPLEFOC_DEBUG("MOT: Enable driver.");
     enable();
     _delay(50);
+
+    if (!_isset(sensor_direction)) {
+        sensor_direction = Direction::CW;
+        SIMPLEFOC_DEBUG("MOT: Sensor Dir: CW");
+    }
+
     motor_status = FOCMotorStatus::motor_ready;
 };
 
@@ -77,10 +85,14 @@ void DCMotor::enable() {
 };
 
 
-void DCMotor::move(float target) {
+void DCMotor::move(float new_target) {
     // get angular velocity
     if (sensor) sensor->update();
+    shaft_angle = shaftAngle();
     shaft_velocity = shaftVelocity();
+
+    // update motor target
+    if(_isset(new_target)) target = new_target;
 
     // open-loop not supported
     if( controller==MotionControlType::angle_openloop || controller==MotionControlType::velocity_openloop ) return;
@@ -89,37 +101,42 @@ void DCMotor::move(float target) {
     if(!enabled) return;
 
     // get angle
-    shaft_angle = shaftAngle();
-    shaft_velocity = shaftVelocity();
+    voltage.d = 0.0f; // not used for DC motors
     switch (controller) {
         case MotionControlType::torque:
             if (torque_controller == TorqueControlType::voltage)
-                voltage_sp = target;
+                voltage.q = target;
             else
-                voltage_sp = 0.0f; // TODO implement the other torque modes, and current control loop
+                voltage.q = 0.0f; // TODO implement the other torque modes, and current control loop
             break;
         case MotionControlType::angle:
             // angle set point
             // include angle loop
             shaft_angle_sp = target;
             shaft_velocity_sp = P_angle( shaft_angle_sp - shaft_angle );
-            voltage_sp = PID_velocity(shaft_velocity_sp - shaft_velocity);
+            voltage.q = PID_velocity(shaft_velocity_sp - shaft_velocity);
             break;
         case MotionControlType::velocity:
             // velocity set point
-            // inlcude velocity loop
             shaft_velocity_sp = target;
-            voltage_sp = PID_velocity(shaft_velocity_sp - shaft_velocity);
-        break;
+            voltage.q = PID_velocity(shaft_velocity_sp - shaft_velocity);
+            break;
+        default:
+            voltage.q = 0.0f;
+            disable();
+            motor_status = FOCMotorStatus::motor_error; // we don't support this mode
+            return;
     }
     // set the voltage to the motor
-    setPhaseVoltage(voltage_sp);
+    setPhaseVoltage(voltage.q, 0.0f, 0.0f);
 };
 
 
-void DCMotor::setPhaseVoltage(float U) {
+void DCMotor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
     if (enabled==1)
-        driver->setPwm(U);
+        driver->setPwm(Uq);
+    _UNUSED(Ud);
+    _UNUSED(angle_el);
 };
 
 

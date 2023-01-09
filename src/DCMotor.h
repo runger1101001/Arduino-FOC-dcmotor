@@ -29,10 +29,6 @@ public:
       * DCDriver link
       */
     DCDriver* driver;
-    /**
-     * Voltage set-point
-     */
-    float voltage_sp = 0.0f;
     
     /**  Motor hardware init function */
   	void init() override;
@@ -45,17 +41,19 @@ public:
     /**
      * Function executing the control loops set by the controller parameter of the DCMotor.
      * 
-     * @param target  Either voltage, angle or velocity based on the motor.controller
-     *                If it is not set the motor will use the target set in its variable motor.target
+     * @param new_target  Either voltage, angle or velocity based on the motor.controller
+     *                    If it is not set the motor will use the target set in its variable motor.target
      * 
      * This function doesn't need to be run upon each loop execution - depends of the use case
      */
-    void move(float target = NOT_SET) override;
+    void move(float new_target = NOT_SET) override;
 
-  /**
-    * @param U Voltage to set to the motor
+   /**
+    * @param Uq Voltage to set to the motor
+    * @param Ud ignored for DC motors
+    * @param angle_el ignored for DC motors
     */
-    void setPhaseVoltage(float U);
+    virtual void setPhaseVoltage(float Uq, float Ud, float angle_el) override;
 
     // not implemented for DC motors
     virtual int initFOC(float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override; 

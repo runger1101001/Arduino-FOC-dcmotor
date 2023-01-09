@@ -1,17 +1,18 @@
 
 
 
-#include "./DCDriverSpeedDir.h"
+#include "./DCDriver1PWM1Dir.h"
 
 
-DCDriverSpeedDir::DCDriverSpeedDir(int pinPWM, int pinDIR, int pinEN) {
+DCDriver1PWM1Dir::DCDriver1PWM1Dir(int pinPWM, int pinDIR, int pinEN) {
     this->pinPWM = pinPWM;
     this->pinDIR = pinDIR;
     this->pinEN = pinEN;
+    this->pwm_frequency = NOT_SET;
 };
 
 
-int DCDriverSpeedDir::init() {
+int DCDriver1PWM1Dir::init() {
     if (pinEN!=NOT_SET) {
         pinMode(pinEN, OUTPUT);
         digitalWrite(pinEN, enable_active_high ? LOW : HIGH);
@@ -26,7 +27,7 @@ int DCDriverSpeedDir::init() {
 
 
 
-void DCDriverSpeedDir::setPwm(float U){
+void DCDriver1PWM1Dir::setPwm(float U){
     if (U>0.0f) {
         U = _constrain(U, 0.0f, voltage_limit);
         U = _constrain(U/voltage_power_supply,0.0f,1.0f);

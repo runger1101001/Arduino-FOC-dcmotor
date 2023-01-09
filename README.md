@@ -1,4 +1,4 @@
-# SimpleFOC DCMotor
+# SimpleDCMotor
 
 
 :warning: code in development! Please help us test it!
@@ -27,27 +27,40 @@ You can use any of the SimpleFOC sensor classes from [this repository](../../enc
 
 ### Open loop control
 
-Open loop control is *not supported* by this class. But you can open loop control a DC motor just by directly using the DCDriver class and its `driver.setPwm(volts)` method.
+Open loop control for DC motors is equivalent to torque-voltage mode. You can use torque-voltage mode (and no sensor is required). Or you can open loop control a DC motor just by directly using the DCDriver class and its `driver.setPwm(volts)` method.
 
 ### Usage
 
+Use torque-voltage mode to open-loop control a DC motor:
+
 ```c++
-DCDriver driver = DCDriver2PWM(1,2,3);
-Sensor sensor = MagneticSensorAS5048A(10);
+#include <Arduino.h>
+
+#include "SimpleFOC.h"
+#include "DCMotor.h"
+#include "drivers/DCDriver2PWM.h"
+
+
+DCMotor motor = DCMotor();
+DCDriver2PWM driver = DCDriver2PWM(2, 3);
 
 void setup() {
-    sensor.init();
-    driver.init();
-    motor.linkSensor(&sensor);
-    motor.linkDriver(&driver);
-    motor.controller = MotionControlType::torque;
-    motor.torque_controller = TorqueControlType::voltage;
-    motor.init();
+
+  driver.init();
+  motor.linkDriver(&driver);
+
+  driver.voltage_power_supply = 10.0f;
+  driver.voltage_limit = 10.0f;
+  motor.torque_controller = TorqueControlType::voltage;
+  motor.controller = MotionControlType::torque;
+
+  motor.init();
+
 }
 
 void loop() {
-    motor.move(5); // 5 Volts
+  motor.move(3.0f); // 3 Volts
 }
 ```
 
-More detailed examples can be found [here](../examples/).
+More detailed examples can be found [here](examples/).
