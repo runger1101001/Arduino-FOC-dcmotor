@@ -29,10 +29,6 @@ public:
       * DCDriver link
       */
     DCDriver* driver;
-    /**
-     * Voltage set-point
-     */
-    float voltage_sp = 0.0f;
     
     /**  Motor hardware init function */
   	void init() override;
