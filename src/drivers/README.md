@@ -40,19 +40,37 @@ Intended for use with DC motor driver modules or circuits where the two half-bri
 To go in one direction, A is pulled high while B is pulled low, and to reverse direction, A is pulled low and B is pulled high.
 Speed is controlled by applying PWM to the high signal.
 
-### DCDriverSpeedDir
+### DCDriver1PWM1Dir
 
 ```c++
 #define PIN_PWM 1
 #define PIN_DIR 2
 #define PIN_EN 5
 
-DCDriver driver = DCDriverSpeedDir(PIN_PWM, PIN_DIR, PIN_EN);
+DCDriver driver = DCDriver1PWM1Dir(PIN_PWM, PIN_DIR, PIN_EN);
 ```
 
 Intended for use with DC motor driver modules which accept one speed input, with PWM control, and one direction input (binary logic).
 
 Direction is determined by the DIR pin, while speed is controlled with the PWM signal on the PWM pin.
+
+### DCDriver1PWM2Dir
+
+```c++
+#define PIN_PWM 1
+#define PIN_DIRA 2
+#define PIN_DIRB 3
+#define PIN_EN 5
+
+DCDriver driver = DCDriver1PWM2Dir(PIN_PWM, PIN_DIRA, PIN_DIRB, PIN_EN);
+```
+
+Intended for use with DC motor driver modules which accept one speed input, with PWM control, and two direction inputs.
+
+Speed is controlled with the PWM signal on the PWM pin, and direction is set using the two direction pins. Set them to opposite
+values to go one way, and flip both values to go the other way. If you set both direction pins to the same value, the motor typically
+stops, but this depends on the driver hardware used.
+
 
 ### DCDriver1PWM
 
