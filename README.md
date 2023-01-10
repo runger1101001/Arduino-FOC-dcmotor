@@ -21,7 +21,7 @@ It supports closed loop motor control based on a position sensor on the motor sh
 - Position control
 - Torque-current control (:warning: not yet implemented)
 
-It is intended to be used with one of the [DCDriver classes](src/drivers/dc/). Different driver classes are provided for commonly used driver control schemes.
+It is intended to be used with one of the [DCDriver classes](src/drivers/). Different driver classes are provided for commonly used driver control schemes.
 
 You can use any of the SimpleFOC sensor classes from [the drivers repository](https://github.com/simplefoc/Arduino-FOC-drivers/tree/master/src/encoders) or the [main repository](https://github.com/simplefoc/Arduino-FOC/tree/master/src/sensors).
 
