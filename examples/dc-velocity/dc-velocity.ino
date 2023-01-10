@@ -72,7 +72,7 @@ void setup() {
   // if you want, you can limit the voltage used by the driver.
   // This value has to be same as or lower than the power supply voltage.
   driver.voltage_limit = 6.0f;
-  // Optinally set the PWM frequency.
+  // Optionally set the PWM frequency.
   driver.pwm_frequency = 5000;
   // init driver
   driver.init();
@@ -87,13 +87,15 @@ void setup() {
   // has to be lower than the power supply voltage.
   motor.voltage_limit = 6.0f;
   motor.velocity_limit = 500.0f;
-  // control type - for this example we use position mode.
+  // control type - for this example we use velocity mode.
   motor.controller = MotionControlType::velocity;
   motor.torque_controller = TorqueControlType::voltage;
   // init motor
   motor.init();
-  // set the PID parameters for velocity control. Please consult our
-  // documentation and forums for tips on PID tuning. The values
+  // set the PID parameters for velocity control. It is suggested you first test
+  // the motor with torque-voltage mode and a sensor, to make sure the basics are
+  // working before you attempt to tune velocity control.
+  // Please consult our documentation and forums for tips on PID tuning. The values
   // can be different depending on your PSU voltage, the driver, the sensor
   // and the motor used.
   motor.PID_velocity.P = 0.05f;
@@ -125,7 +127,7 @@ void loop() {
   // call motor.move() once per iteration, ideally at a rate of 1kHz or more.
   // rates of more than 10kHz might need a delay, as the sensor may not be able to
   // update quickly enough (depends on sensor)
-  motor.move(); // target position can be set via commander input
+  motor.move(); // target speed can be set via commander input
 
   // call commander.run() once per loop iteration, it will process incoming commands
   commander.run();
