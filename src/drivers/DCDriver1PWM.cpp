@@ -12,13 +12,15 @@ DCDriver1PWM::DCDriver1PWM(int pinPWM, float threshold, int pinEN) {
 
 void DCDriver1PWM::configureMicroseconds(int hz, int min_us, int zero_us, int max_us, bool active_high){
     pwm_frequency = hz;
+    this->active_high = active_high;
     pwm_period_us = 1000000.0f / hz;
     threshold = (float)zero_us / pwm_period_us;
     pwm_max = (float)max_us / pwm_period_us;
     pwm_min = (float)min_us / pwm_period_us;
     if (!active_high) {
-        pwm_max = 1.0f - pwm_max;
-        pwm_min = 1.0f - pwm_min;
+        float temp = 1.0f - pwm_min;
+        pwm_min = 1.0f - pwm_max;
+        pwm_max = temp;
         threshold = 1.0f - threshold;
     }
     pwm_max = _constrain(pwm_max, 0.0f, 1.0f);
@@ -62,7 +64,7 @@ void DCDriver1PWM::setPwm(float U){
 
 void DCDriver1PWM::setPwmMicroseconds(int us){
     float U = (float)us / pwm_period_us;
-    if (!active_high)
+    if (!active_high) 
         U = 1.0f - U;
     U = _constrain(U, pwm_min, pwm_max);
     _writeDutyCycle1PWM(U, params);
