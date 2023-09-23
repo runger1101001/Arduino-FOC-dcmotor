@@ -140,7 +140,7 @@ void DCMotor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
 };
 
 
-int DCMotor::initFOC(float zero_electric_offset, Direction sensor_direction) {
+int DCMotor::initFOC() {
     // nothing to do for DC motors
     return 0; // always return failure
 }; 
