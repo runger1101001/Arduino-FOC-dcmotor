@@ -1,6 +1,13 @@
 # SimpleDCMotor
 
 
+![Library Compile](https://github.com/simplefoc/Arduino-FOC-dcmotor/workflows/Library%20Compile/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Release](https://www.ardu-badge.com/badge/SimpleDCMotor.svg?)
+
+
+Release 1.0.1 for SimpleFOC 2.3.1
+
 :warning: code in development! Please help us test it!
 
 
