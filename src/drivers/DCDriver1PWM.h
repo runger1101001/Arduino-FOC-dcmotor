@@ -17,6 +17,8 @@ class DCDriver1PWM : public DCDriver {
 
         virtual int init() override;
 
+        void configureMicroseconds(int hz, int min_us, int zero_us, int max_us, bool active_high = false);
+
         /** 
          * Set phase voltages to the harware 
          * Positive voltages are associated with the "forward" direction, negative voltages with the "reverse" direction
@@ -24,7 +26,15 @@ class DCDriver1PWM : public DCDriver {
         */
         virtual void setPwm(float U) override;
 
+        void setPwmMicroseconds(int us);
+
         int pinPWM;
         bool scale_reverse = true; //!< if true, the reverse scale is full reverse, if false, the reverse scale is the same as the forward scale
-        float threshold = 0.5; //!< duty cycle above which the motor is considered to be "forward"
+        float threshold = 0.5f; //!< duty cycle above which the motor is considered to be "forward"
+        float pwm_max = 1.0f;
+        float pwm_min = 0.0f;
+        bool active_high = true;
+        float dead_zone = 0.0f;
+    protected:
+        float pwm_period_us = NOT_SET;
 };

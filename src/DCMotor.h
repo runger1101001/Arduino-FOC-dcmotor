@@ -56,7 +56,7 @@ public:
     virtual void setPhaseVoltage(float Uq, float Ud, float angle_el) override;
 
     // not implemented for DC motors
-    virtual int initFOC(float zero_electric_offset = NOT_SET , Direction sensor_direction = Direction::CW) override; 
+    virtual int initFOC() override; 
     // not implemented for DC motors
     virtual void loopFOC() override;
 
