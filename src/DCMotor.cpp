@@ -56,7 +56,7 @@ void DCMotor::init() {
     enable();
     _delay(50);
 
-    if (!_isset(sensor_direction)) {
+    if (sensor_direction==Direction::UNKNOWN) {
         sensor_direction = Direction::CW;
         SIMPLEFOC_DEBUG("MOT: Sensor Dir: CW");
     }
