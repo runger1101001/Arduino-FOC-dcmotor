@@ -6,7 +6,7 @@
 ![Release](https://www.ardu-badge.com/badge/SimpleDCMotor.svg?)
 
 
-Release 1.0.1 for SimpleFOC 2.3.1
+Release 1.0.2 for SimpleFOC 2.3.1
 
 :warning: code in development! Please help us test it!
 
