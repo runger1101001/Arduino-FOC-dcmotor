@@ -16,7 +16,7 @@
 #include <Arduino.h>
 
 #include "SimpleFOC.h"
-#include "SimpleFOCDCMotor.h"
+#include "SimpleDCMotor.h"
 
 
 // DCMotor object
@@ -46,6 +46,7 @@ void setup() {
   // if you want, you can limit the voltage used by the driver.
   // This value has to be same as or lower than the power supply voltage.
   driver.voltage_limit = 10.0f;
+  // often, you will want to set a lower PWM frequency than the default
   driver.pwm_frequency = 5000;
   // init driver
   driver.init();

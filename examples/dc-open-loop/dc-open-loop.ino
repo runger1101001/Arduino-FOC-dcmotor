@@ -13,7 +13,7 @@
 #include <Arduino.h>
 
 #include "SimpleFOC.h"
-#include "SimpleFOCDCMotor.h"
+#include "SimpleDCMotor.h"
 
 // DCDriver object - this is the only thing needed for open-loop control.
 // There are different types to choose from, please select the correct one
