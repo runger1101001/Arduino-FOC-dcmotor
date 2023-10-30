@@ -130,6 +130,7 @@ void setup() {
 
   driver.voltage_power_supply = 10.0f;
   driver.voltage_limit = 10.0f;
+  driver.pwm_frequency = 5000;
   motor.torque_controller = TorqueControlType::voltage;
   motor.controller = MotionControlType::torque;
 
