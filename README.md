@@ -1,6 +1,13 @@
 # SimpleDCMotor
 
 
+![Library Compile](https://github.com/simplefoc/Arduino-FOC-dcmotor/workflows/Library%20Compile/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Release](https://www.ardu-badge.com/badge/SimpleDCMotor.svg?)
+
+
+Release 1.0.2 for SimpleFOC 2.3.1 or later
+
 :warning: code in development! Please help us test it!
 
 
@@ -123,6 +130,7 @@ void setup() {
 
   driver.voltage_power_supply = 10.0f;
   driver.voltage_limit = 10.0f;
+  driver.pwm_frequency = 5000;
   motor.torque_controller = TorqueControlType::voltage;
   motor.controller = MotionControlType::torque;
 

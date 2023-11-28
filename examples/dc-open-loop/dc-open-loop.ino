@@ -13,12 +13,12 @@
 #include <Arduino.h>
 
 #include "SimpleFOC.h"
-#include "SimpleFOCDCMotor.h"
+#include "SimpleDCMotor.h"
 
 // DCDriver object - this is the only thing needed for open-loop control.
 // There are different types to choose from, please select the correct one
 // that matches your motor driver hardware.
-DCDriverSpeedDir driver = DCDriverSpeedDir(2, 3);
+DCDriver1PWM1Dir driver = DCDriver1PWM1Dir(2, 3);
 
 /**
  * Setup function, in which you should intialize the driver.
